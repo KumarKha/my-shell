@@ -1,12 +1,15 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 
 
+
 #ifdef _WIN32 // Windows
 #include <windows.h>
+#include <direct.h>
+#include <limits.h>
+
 void execute_command(char *command){
     printf("Running on Windows\n");
 }
@@ -16,6 +19,8 @@ void execute_command(char *command){
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+
+#define MAX_PATH 256
 
     
 void execute_command(char *args[]){
@@ -33,10 +38,32 @@ void execute_command(char *args[]){
         wait(NULL);
     }
 }
+
+char* getDir(){
+    char *cwd = malloc(MAX_PATH);
+    if(cwd == NULL){
+        perror("Memory allocation failed");
+        return NULL;
+
+    }
+
+    if (getcwd(cwd, MAX_PATH) != NULL){
+        return cwd;
+    }else{
+        perror("Unable to get Current Working Directory");
+        free(cwd);
+        return NULL;
+    }
+    
+
+}
 #endif
+
 
 #define MAX_INPUT_SIZE 256
 #define MAX_ARGS 10
+
+
 
 int main(int argc, char const *argv[])
 {
@@ -47,7 +74,9 @@ int main(int argc, char const *argv[])
 
     while (1)
     {
-        printf("mysh>>> ");
+        char *cwd = getDir();
+        
+        printf("%s - mysh>>> ", cwd);
         fgets(commandString, MAX_INPUT_SIZE, stdin);
         commandString[strcspn(commandString,"\n")]= 0;
 
