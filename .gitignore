@@ -1,3 +1,36 @@
+# Ignore compiled binary files
+myshell
+myshell.exe
+*.o
+*.obj
 
-# Compiled App used for testing
-shell
+# Ignore backup files
+*.bak
+*.swp
+*.swo
+*.tmp
+
+# Ignore logs and debugging files
+*.log
+*.out
+core
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore build directories
+/build/
+bin/
+obj/
+
+# Ignore IDE and editor files
+.vscode/
+.idea/
+*.code-workspace
+
+# Ignore configuration files that are user-specific
+*.user
+
+# Ignore macOS debug symbol files
+*.dSYM/
